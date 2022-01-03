@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1087452958704-tarps7l487on545mg5cb23ic1e0latlr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1087452958704-tarps7l487on545mg5cb23ic1e0latlr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1087452958704-02jceubujmj7cm2efv5m94amct0us7dq.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAUgbE2O2Tmg8RTFh-nD2GqFl_24RbxG9s</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1087452958704</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.pl.choovoo.choovoo</string>
+	<key>PROJECT_ID</key>
+	<string>choovoo</string>
+	<key>STORAGE_BUCKET</key>
+	<string>choovoo.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1087452958704:ios:5aca47422202015db65735</string>
+</dict>
+</plist>

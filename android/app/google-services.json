@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1087452958704",
+    "project_id": "choovoo",
+    "storage_bucket": "choovoo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087452958704:android:44ef09570fca2593b65735",
+        "android_client_info": {
+          "package_name": "com.pl.choovoo.choovoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087452958704-02jceubujmj7cm2efv5m94amct0us7dq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pl.choovoo.choovoo",
+            "certificate_hash": "7b4d165410d0814a10b85dddc033dc3d303b6379"
+          }
+        },
+        {
+          "client_id": "1087452958704-kn49prqc4eb78nqs0hifdquoblf6oom1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpc5WKXTqV5oL6IY0XZcn2JCMX5glw_Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087452958704-kn49prqc4eb78nqs0hifdquoblf6oom1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
