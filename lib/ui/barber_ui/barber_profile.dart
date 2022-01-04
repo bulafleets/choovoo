@@ -84,6 +84,13 @@ class BarberProfileState extends State<BarberProfile>{
                           icon: Icons.favorite,
                           text: 'Friends',
                           //onTap: () => // Navigator.pushReplacementNamed(context, pageRoutes.profile),
+                           onTap: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => FriendsList())
+                            );
+                          },
                           color: Color(0xff14cae2)
                       ),
                       Divider(),
