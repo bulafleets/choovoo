@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:choovoo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-import 'navigationDrawer.dart';
+import '../navigationDrawer.dart';
 
 class FriendsList extends StatefulWidget {
   @override
