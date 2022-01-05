@@ -122,6 +122,8 @@ class _NoshowListState extends State<NoshowList> {
     return SizedBox(
       height: _height,
       child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         // scrollDirection: Axis.vertical,
         //shrinkWrap: true,// outer ListView
         itemCount: taglist.length,

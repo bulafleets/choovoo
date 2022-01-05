@@ -42,4 +42,5 @@ final String URL_UpdateStatus = BASE + "update/appointment-status";
 final String URL_UpdateUserProfile = BASE + "user/updateprofile";
 final String URL_GetBarberShop = BASE + "get-barber-info/shop";
 final String URL_CreateShopReview = BASE + "create/shop/review";
+final String URL_FeedCreate = BASE + "feed/create";
 

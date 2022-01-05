@@ -40,20 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        //  _showItemDialog(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-        //_navigateToItemDetail(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-        //_navigateToItemDetail(message);
-      },
-    );
+
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(
             sound: true, badge: true, alert: true, provisional: true));
@@ -439,6 +426,7 @@ class _LoginScreenState extends State<LoginScreen> {
         'firebase_token': fcmtoken,
       },
     );
+    print(fcmtoken);
     EasyLoading.dismiss();
     String data = response.body;
     String status = jsonDecode(data)['status'].toString();

@@ -38,6 +38,7 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
   TextEditingController titlecontrol = TextEditingController();
   TextEditingController postcontroll = TextEditingController();
   List<File> selectedimages = [];
+  GlobalKey<FormState> _formkey = GlobalKey();
   int _current = 0;
   final CarouselController _controller = CarouselController();
   @override
@@ -152,7 +153,7 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
 
              // shoapnameform(),
               SizedBox(height:10,),
-              postformfield(),
+              form(),
               SizedBox(height:30,),
               nextbutton(),
               SizedBox(height: 10,),
@@ -245,7 +246,21 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
   }
 
 
+  Widget form() {
+    return Container(
 
+      child: Form(
+        key: _formkey,
+        child: Column(
+          children: <Widget>[
+            // firstNameTextFormField(),
+            //SizedBox(height: _height/ 60.0),
+           postformfield()
+          ],
+        ),
+      ),
+    );
+  }
   Widget shoapnameform() {
     return Container(
       alignment: Alignment.center,
@@ -256,12 +271,6 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
       child: shoapnameTextFormField(),
     );
   }
-
-
-
-
-
-
 
   Widget shoapnameTextFormField() {
     return TextField(
@@ -296,8 +305,9 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
           left:_width/ 20.0,
           right: _width / 20.0,
           top:5),
-      child: TextField(
+      child: TextFormField(
         controller: postcontroll,
+        validator:RequiredValidator(errorText: "Please add your post."),
         keyboardType: TextInputType.text,
         cursorColor: Colors.grey,
         maxLines: 4,
@@ -342,7 +352,12 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
           ),
         ),
         onPressed: () async {
-
+            if(selectedimages.length==0){
+              EasyLoading.showToast("Please upload image");
+            }
+         else{
+              CreateShoap() ;
+            }
 
           //  CreateShoap(json);
 
@@ -356,34 +371,50 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
 
 
 
-  Future<void> CreateShoap(String json) async {
+  Future<void> CreateShoap() async {
     print(user_id);
-    /* if(imageFile!=null) {
-       List<int> imageBytes = await imageFile.readAsBytes();
-       base64Image = base64Encode(imageBytes);
-     }*/
-    /*    final response = await http.post(Uri.parse(URL_CreateShoap),headers: {HttpHeaders.authorizationHeader: "Bearer $authorization"},
-       body: {
-         'user_id': user_id,
-         'shop_name': shoapnamecontroll.text,
-         'shop_location': shoaplocationcontroll.text,
-         'is_mobile_appointment': appointment.toString(),
-         'is_location_access': locationacess.toString(),
-         'tag': json,
-         'lattitude':shoaplat,
-         'longitude': shoaplng,
-         'shop_image':base64Image
-       },
-     );*/
-    var request = http.MultipartRequest('POST', Uri.parse(URL_CreateShoap));
+    var request = http.MultipartRequest('POST', Uri.parse(URL_FeedCreate));
     request.headers.addAll({"Authorization": "Bearer $authorization"});
+
+   /* for (var i=0;i<selectedimages.length;i++){
+      String ssss='media${[i]}';
+      print(ssss);
+      request.files.add(
+          await http.MultipartFile.fromPath(
+              'media${[i]}', selectedimages[i].path
+            // imageFile.path
+          )
+      );
+    }*/
+    await Future.forEach(
+        selectedimages,
+            (file) async => {
     request.files.add(
         await http.MultipartFile.fromPath(
-            'shop_photo',""
-           // imageFile.path
+            'media', file.path
+          // imageFile.path
         )
-    );
+    )
+  });
+
     request.fields['user_id'] = user_id;
+    request.fields['title'] = postcontroll.text;
+    print(request.fields);
+
+
+     /*  await Future.forEach(
+      selectedimages,
+          (file) async => {
+        request.files.add(
+          http.MultipartFile(
+            'media',
+            (http.ByteStream(file.openRead())).cast(),
+            await file.length(),
+            filename: file.path.split('/').last,
+          ),
+        )
+      },
+    );*/
 
     var res = await request.send();
     var response=await http.Response.fromStream(res);

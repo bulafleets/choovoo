@@ -122,11 +122,12 @@ class _CompletedListState extends State<CompletedList> {
     return SizedBox(
       height: _height,
       child: ListView.builder(
-        // scrollDirection: Axis.vertical,
-        //shrinkWrap: true,// outer ListView
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,// outer ListView
         itemCount: taglist.length,
         itemBuilder: (_, indexX) {
           for (int i = 0; i < taglist.length; i++) {
+            print("appid${taglist[2].id}");
             selectedItemValue.add("Update Status");
           }
           return Container(
