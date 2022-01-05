@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class SplashScreen extends StatefulWidget {
   @override
   SplashScreenState createState() => new SplashScreenState();
@@ -29,7 +27,7 @@ class SplashScreenState extends State<SplashScreen>
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     bool CheckValue = _prefs.containsKey('email');
     print(CheckValue);
-    if(CheckValue) {
+    if (CheckValue) {
       name = _prefs.getString('name');
       email = _prefs.getString('email');
       user_id = _prefs.getString('user_id');
@@ -39,11 +37,10 @@ class SplashScreenState extends State<SplashScreen>
       password = _prefs.getString('password');
       authorization = _prefs.getString('token');
       Navigator.of(context).pushReplacementNamed(FINAL_GET_START);
+    } else {
+      Navigator.of(context).pushReplacementNamed(SELECT_ACCOUNT);
     }
-    else{
-     Navigator.of(context).pushReplacementNamed(SELECT_ACCOUNT);
-    }
-   // Navigator.of(context).pushReplacementNamed(SELECT_ACCOUNT);
+    // Navigator.of(context).pushReplacementNamed(SELECT_ACCOUNT);
   }
 
   @override
@@ -52,12 +49,8 @@ class SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
-
-    )..repeat(reverse:true);
-    _animation = CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeIn
-    );
+    )..repeat(reverse: true);
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
     setState(() {
       _visible = !_visible;
@@ -66,12 +59,19 @@ class SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
-       // fit: StackFit.expand,
+        // fit: StackFit.expand,
         children: <Widget>[
           Image.asset(
             'assets/background.png',
@@ -79,7 +79,6 @@ class SplashScreenState extends State<SplashScreen>
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
           ),
-
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -90,9 +89,11 @@ class SplashScreenState extends State<SplashScreen>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("assets/logo.png",
+                      Image.asset(
+                        "assets/logo.png",
                         height: 200,
-                        width: 200,),
+                        width: 200,
+                      ),
                     ],
                   ),
                 ),
