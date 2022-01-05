@@ -4,11 +4,13 @@ import 'package:choovoo/constants/common_params.dart';
 import 'package:choovoo/ui/barber_ui/update_shop.dart';
 import 'package:choovoo/ui/client_ui/update_profile.dart';
 import 'package:choovoo/ui/feed/Frirnds_list.dart';
+import 'package:choovoo/ui/feed/friend_request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../navigationDrawer.dart';
+import '../setting_page.dart';
 
 class BarberProfile extends StatefulWidget {
   @override
@@ -107,7 +109,13 @@ class BarberProfileState extends State<BarberProfile> {
                         icon: Icons.people,
                         text: 'Friends Request',
                         // onTap: () => //  Navigator.pushReplacementNamed(context, pageRoutes.home),
-                        color: Color(0xff2b44e7)),
+                        color: Color(0xff2b44e7),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FriendRequest()));
+                        }),
                     Divider(),
                     createDrawerBodyItem(
                         icon: Icons.account_balance_wallet_rounded,
@@ -126,6 +134,12 @@ class BarberProfileState extends State<BarberProfile> {
                         icon: Icons.settings,
                         text: 'Settings',
                         // onTap: () => Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SettingPage()));
+                        },
                         color: Color(0xff556ef7)),
                     Divider(),
                     createDrawerBodyItem(
@@ -193,7 +207,9 @@ class BarberProfileState extends State<BarberProfile> {
                 child: Align(
                   alignment: Alignment.center,
                   child: CachedNetworkImage(
-                    imageUrl: profileimg,
+                    // imageUrl: profileimg, will change after url working
+                    imageUrl:
+                        'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
                     placeholder: (context, url) => new Center(
                       child: CircularProgressIndicator(),
                     ),
