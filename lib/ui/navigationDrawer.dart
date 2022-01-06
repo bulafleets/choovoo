@@ -29,6 +29,7 @@ class navigationDrawer extends StatelessWidget {
           createDrawerBodyItem(
               text: 'Friends',
               onTap: () {
+                Navigator.of(context).pop();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => FriendsList()));
               }),

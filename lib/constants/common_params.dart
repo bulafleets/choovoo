@@ -43,4 +43,5 @@ final String URL_UpdateUserProfile = BASE + "user/updateprofile";
 final String URL_GetBarberShop = BASE + "get-barber-info/shop";
 final String URL_CreateShopReview = BASE + "create/shop/review";
 final String URL_FeedCreate = BASE + "feed/create";
-
+final String URL_Accept = BASE + "accept-friend-request";
+final String URL_Delete = BASE + "delete-friend-request";

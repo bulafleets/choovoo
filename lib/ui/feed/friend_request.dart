@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:choovoo/constants/colors.dart';
+import 'package:choovoo/constants/common_params.dart';
 import 'package:choovoo/ui/feed/friend_request_accept.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../navigationDrawer.dart';
+import 'package:http/http.dart' as http;
 
 class FriendRequest extends StatefulWidget {
   @override
@@ -102,21 +107,20 @@ class _FriendRequestState extends State<FriendRequest> {
                           Row(
                             children: [
                               InkWell(
-                                onTap: () {},
-                                child: Text('Decline',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(223, 46, 46, 1),
-                                      fontSize: 15,
-                                    )),
+                                onTap: () => DeleteRequest(),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Decline',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(223, 46, 46, 1),
+                                        fontSize: 15,
+                                      )),
+                                ),
                               ),
                               SizedBox(width: 15),
                               InkWell(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => FriendRequestAccept());
-                                },
+                                onTap: () => AcceptRequest(),
                                 child: Container(
                                     // width: 90,
                                     // height: 35,
@@ -143,5 +147,52 @@ class _FriendRequestState extends State<FriendRequest> {
                         ],
                       ),
                     )))));
+  }
+
+  Future<void> AcceptRequest() async {
+    final response = await http.post(Uri.parse(URL_Accept), body: {
+      'requester_id': '61b99713e82d08473fe421a7',
+      'accepter_id': user_id,
+      'accept_status': 'true',
+    }, headers: {
+      HttpHeaders.authorizationHeader: "Bearer $authorization"
+    });
+    EasyLoading.dismiss();
+    String data = response.body;
+    String status = jsonDecode(data)['status'].toString();
+    print(data);
+
+    if (status == '200') {
+      String message = jsonDecode(data)['message'];
+      showDialog(context: context, builder: (_) => FriendRequestAccept());
+    } else if (status == '400') {
+      String message = jsonDecode(data)['message'];
+      EasyLoading.showToast(message);
+    } else {
+      EasyLoading.showToast("Something Happen Wrong");
+    }
+  }
+
+  Future<void> DeleteRequest() async {
+    final response = await http.post(Uri.parse(URL_Delete), body: {
+      'sender_id': '61b99713e82d08473fe421a7',
+      'reciever_id': user_id,
+    }, headers: {
+      HttpHeaders.authorizationHeader: "Bearer $authorization"
+    });
+    EasyLoading.dismiss();
+    String data = response.body;
+    String status = jsonDecode(data)['status'].toString();
+    print(data);
+
+    if (status == '200') {
+      String message = jsonDecode(data)['message'];
+      EasyLoading.showInfo(message);
+    } else if (status == '400') {
+      String message = jsonDecode(data)['message'];
+      EasyLoading.showToast(message);
+    } else {
+      EasyLoading.showToast("Something Happen Wrong");
+    }
   }
 }
