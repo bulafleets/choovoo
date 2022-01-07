@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 import '../navigationDrawer.dart';
 
 class NoshowList extends StatefulWidget {
-
   @override
   _NoshowListState createState() => _NoshowListState();
 }
@@ -21,16 +20,16 @@ class _NoshowListState extends State<NoshowList> {
   double _height;
   double _width;
   double _pixelRatio;
-  bool loading=true;
+  bool loading = true;
   List<String> selectedItemValue = List<String>();
   List<BarberAppointmentModel> taglist = [];
   List<BarberSevriceModel> servicelist = [];
   @override
   void initState() {
-
     getAppointmentlist();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -38,28 +37,30 @@ class _NoshowListState extends State<NoshowList> {
     _width = MediaQuery.of(context).size.width;
     _pixelRatio = MediaQuery.of(context).devicePixelRatio;
 
-    return MaterialApp(
-        home:  Scaffold(
-          backgroundColor: AppColors.backgroundcolor,
-          body: loading?Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator()):
-          taglist.length==0?Container(
-              alignment: Alignment.center,
-              child: Text("No Appointments",style: TextStyle(color:Colors.black,fontFamily: 'RobotoBold'),))
-              :
-          SingleChildScrollView(
-            child: Column(
-              //mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                // titleRow(),
-                listwidget()
+    return Scaffold(
+      backgroundColor: AppColors.backgroundcolor,
+      body: loading
+          ? Container(
+              alignment: Alignment.center, child: CircularProgressIndicator())
+          : taglist.length == 0
+              ? Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "No Appointments",
+                    style: TextStyle(
+                        color: Colors.black, fontFamily: 'RobotoBold'),
+                  ))
+              : SingleChildScrollView(
+                  child: Column(
+                    //mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      // titleRow(),
+                      listwidget()
+                    ],
+                  ),
+                ),
 
-              ],
-            ),
-          ),
-
-          /* SingleChildScrollView(
+      /* SingleChildScrollView(
           child: Column(
 
               children: <Widget>[
@@ -69,11 +70,8 @@ class _NoshowListState extends State<NoshowList> {
                 ]
           ),
         ),*/
-        )
     );
   }
-
-
 
   Widget titleRow() {
     return Container(
@@ -84,12 +82,14 @@ class _NoshowListState extends State<NoshowList> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
                 },
                 child: Align(
@@ -100,7 +100,11 @@ class _NoshowListState extends State<NoshowList> {
                       text: TextSpan(
                         children: [
                           WidgetSpan(
-                            child: Icon(Icons.arrow_back_ios, size: 18,color: Colors.white,),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 18,
+                              color: Colors.white,
+                            ),
                           ),
                         ],
                       ),
@@ -109,15 +113,23 @@ class _NoshowListState extends State<NoshowList> {
                 ),
               ),
               //
-              Text("Appointment List",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w600)),
-              Text("",style: TextStyle(color: Color(0xff3e5c7e),fontSize: 18,fontWeight: FontWeight.w600)),
-
+              Text("Appointment List",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600)),
+              Text("",
+                  style: TextStyle(
+                      color: Color(0xff3e5c7e),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600)),
             ],
           ),
         ],
       ),
     );
   }
+
   Widget listwidget() {
     return SizedBox(
       height: _height,
@@ -138,19 +150,16 @@ class _NoshowListState extends State<NoshowList> {
               /*border: Border.all(
                   width: 1.0
               ),*/
-              borderRadius: BorderRadius.all(
-                  Radius.circular(8.0) //                 <--- border radius here
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(
+                      8.0) //                 <--- border radius here
+                  ),
             ),
             //,
             child: Column(
               children: [
                 ListTile(
-                  onTap: ()async {
-
-                  },
-                  leading:
-                  CachedNetworkImage(
+                  onTap: () async {},
+                  leading: CachedNetworkImage(
                     imageUrl: taglist[indexX].shop_photo,
                     width: 80,
                     height: 80,
@@ -161,85 +170,106 @@ class _NoshowListState extends State<NoshowList> {
                             image: imageProvider, fit: BoxFit.cover),
                       ),
                     ),
-                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        Container(alignment: Alignment.center,
-                            child: CircularProgressIndicator(value: downloadProgress.progress)),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Container(
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                                value: downloadProgress.progress)),
                     errorWidget: (context, url, error) => Icon(
                       Icons.error,
                       size: 100,
                       color: Colors.red,
                     ),
                   ),
-
                   title: Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(taglist[indexX].shop_name,style: TextStyle(fontFamily: 'RobotoBold')),
-                        Text('\$ '+taglist[indexX].totalAmt.toString(),style: TextStyle(fontFamily: 'RobotoRegular'))
+                        Text(taglist[indexX].shop_name,
+                            style: TextStyle(fontFamily: 'RobotoBold')),
+                        Text('\$ ' + taglist[indexX].totalAmt.toString(),
+                            style: TextStyle(fontFamily: 'RobotoRegular'))
                       ],
                     ),
-
                   ),
                   subtitle: Column(
                     children: [
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           RichText(
                             text: TextSpan(
                               children: [
                                 WidgetSpan(
-                                  child: Icon(Icons.calendar_today, size: 14,color: Color(0xff6e6e6e),),
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    size: 14,
+                                    color: Color(0xff6e6e6e),
+                                  ),
                                 ),
                                 TextSpan(
-                                    text: " "+taglist[indexX].appointment_date,style: TextStyle(color: Color(0xff6e6e6e),fontFamily: 'RobotoRegular')
-                                ),
+                                    text:
+                                        " " + taglist[indexX].appointment_date,
+                                    style: TextStyle(
+                                        color: Color(0xff6e6e6e),
+                                        fontFamily: 'RobotoRegular')),
                               ],
                             ),
                           ),
-
                           Container(
-                            child:
-                            Text( "Status",style: TextStyle(fontFamily: 'RobotoRegular'),),
+                            child: Text(
+                              "Status",
+                              style: TextStyle(fontFamily: 'RobotoRegular'),
+                            ),
                           ),
-
                         ],
                       ),
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           RichText(
                             text: TextSpan(
                               children: [
                                 WidgetSpan(
-                                  child: Icon(Icons.watch_later_outlined, size: 14,color: Color(0xff6e6e6e),),
+                                  child: Icon(
+                                    Icons.watch_later_outlined,
+                                    size: 14,
+                                    color: Color(0xff6e6e6e),
+                                  ),
                                 ),
                                 TextSpan(
-                                    text: " "+taglist[indexX].time,style: TextStyle(color: Color(0xff6e6e6e),fontFamily: 'RobotoRegular')
-                                ),
+                                    text: " " + taglist[indexX].time,
+                                    style: TextStyle(
+                                        color: Color(0xff6e6e6e),
+                                        fontFamily: 'RobotoRegular')),
                               ],
                             ),
                           ),
-
                           Container(
-                            child: Text(taglist[indexX].status,style: TextStyle(fontFamily: 'RobotoRegular',color: Color(0xff929d87)),),
+                            child: Text(
+                              taglist[indexX].status,
+                              style: TextStyle(
+                                  fontFamily: 'RobotoRegular',
+                                  color: Color(0xff929d87)),
+                            ),
                           ),
-
                         ],
                       ),
                     ],
                   ),
-
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 Container(
-                  //height: 50,
+                    //height: 50,
                     child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
@@ -249,15 +279,15 @@ class _NoshowListState extends State<NoshowList> {
                         shrinkWrap: true,
                         itemCount: taglist[indexX].service_list.length,
                         itemBuilder: (BuildContext ctx, index) {
-                          servicelist=taglist[indexX].service_list;
+                          servicelist = taglist[indexX].service_list;
                           return Container(
-
-                            child: Text('\u2022  '+servicelist[index].tagname,textAlign: TextAlign.center,),
+                            child: Text(
+                              '\u2022  ' + servicelist[index].tagname,
+                              textAlign: TextAlign.center,
+                            ),
                           );
-                        }
-
-                    )
-                  /*ListView.builder(
+                        })
+                    /*ListView.builder(
                     // inner ListView
                   shrinkWrap: true,
                    scrollDirection: Axis.horizontal,
@@ -268,7 +298,7 @@ class _NoshowListState extends State<NoshowList> {
                     return  ListTile(title: Text(servicelist[index].tagname));
                     }
                   ),*/
-                )
+                    )
               ],
             ),
           );
@@ -276,44 +306,53 @@ class _NoshowListState extends State<NoshowList> {
       ),
     );
   }
+
   List<DropdownMenuItem<String>> _dropDownItem() {
     List<String> ddl = ["Update Status", "Completed", "No Show"];
     return ddl
         .map((value) => DropdownMenuItem(
-      value: value,
-      child: Text(value,style: TextStyle(color: Color(0xff007aff),fontSize: 14,fontFamily: 'RobotoRegular'),),
-    ))
+              value: value,
+              child: Text(
+                value,
+                style: TextStyle(
+                    color: Color(0xff007aff),
+                    fontSize: 14,
+                    fontFamily: 'RobotoRegular'),
+              ),
+            ))
         .toList();
   }
+
   Future<List<BarberAppointmentModel>> getAppointmentlist() async {
     print("hello$user_id");
     try {
-      final response = await http.post(Uri.parse(URL_GetBarberAppointment), headers: { HttpHeaders.authorizationHeader: "Bearer $authorization"},
-          body: {
-            'user_id':user_id
-          });
+      final response = await http.post(Uri.parse(URL_GetBarberAppointment),
+          headers: {HttpHeaders.authorizationHeader: "Bearer $authorization"},
+          body: {'user_id': user_id});
       print("nikitaFFF");
       print(response.body);
       if (response.statusCode == 200) {
         String data = response.body;
         var tagObjsJson = jsonDecode(data)['data'] as List;
         // var serviceObjsJson = jsonDecode(data)['getShopDetails']['servicePrice'] as List;
-        List<BarberAppointmentModel> tagObjs = tagObjsJson.map((tagJson) => BarberAppointmentModel.fromJson(tagJson)).toList();
-        List<BarberAppointmentModel> sec=[];
-        for (var i=0;i<tagObjs.length;i++){
-          if(tagObjs[i].status=="No Show"){
+        List<BarberAppointmentModel> tagObjs = tagObjsJson
+            .map((tagJson) => BarberAppointmentModel.fromJson(tagJson))
+            .toList();
+        List<BarberAppointmentModel> sec = [];
+        for (var i = 0; i < tagObjs.length; i++) {
+          if (tagObjs[i].status == "No Show") {
             sec.add(tagObjs[i]);
           }
         }
-        taglist=sec;
+        taglist = sec;
         // servicelist = serviceobj;
         setState(() {
-          loading=false;
+          loading = false;
         });
         return tagObjs;
       } else {
         setState(() {
-          loading=false;
+          loading = false;
         });
         return [];
       }
@@ -322,5 +361,4 @@ class _NoshowListState extends State<NoshowList> {
       return [];
     }
   }
-
 }

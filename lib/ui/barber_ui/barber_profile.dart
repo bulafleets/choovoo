@@ -5,6 +5,7 @@ import 'package:choovoo/ui/barber_ui/update_shop.dart';
 import 'package:choovoo/ui/client_ui/update_profile.dart';
 import 'package:choovoo/ui/feed/Frirnds_list.dart';
 import 'package:choovoo/ui/feed/friend_request.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,112 +54,104 @@ class BarberProfileState extends State<BarberProfile> {
               //other styles
             ),
             child: navigationDrawer()),
-        body: SingleChildScrollView(
-          child: Column(children: <Widget>[
-            //SizedBox(height: 10,),
-            createHeader(),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Expanded(
-                child: ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    createDrawerBodyItem(
-                        icon: Icons.add_business_sharp,
-                        text: 'My Shop',
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UpdateShoapInfo()));
-                        },
-                        // onTap: () => //  Navigator.pushReplacementNamed(context, pageRoutes.home),
-                        color: Color(0xffb01c92)),
-                    Divider(),
-                    createDrawerBodyItem(
-                        icon: Icons.message,
-                        text: 'Messages',
-                        // onTap: () => //  Navigator.pushReplacementNamed(context, pageRoutes.home),
-                        color: Color(0xff741cb0)),
-                    Divider(),
-                    createDrawerBodyItem(
-                        icon: Icons.favorite,
-                        text: 'Friends',
-                        //onTap: () => // Navigator.pushReplacementNamed(context, pageRoutes.profile),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FriendsList()));
-                        },
-                        color: Color(0xff14cae2)),
-                    Divider(),
-                    createDrawerBodyItem(
-                        icon: Icons.contact_support,
-                        text: 'About Choovoo App',
-                        // onTap: () => // Navigator.pushReplacementNamed(context, pageRoutes.event),
-                        color: Color(0xffe14490)),
-                    Divider(),
-                    createDrawerBodyItem(
-                        icon: Icons.people,
-                        text: 'Friends Request',
-                        // onTap: () => //  Navigator.pushReplacementNamed(context, pageRoutes.home),
-                        color: Color(0xff2b44e7),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FriendRequest()));
-                        }),
-                    Divider(),
-                    createDrawerBodyItem(
-                        icon: Icons.account_balance_wallet_rounded,
-                        text: 'My Payments',
-                        onTap: () {
-                          /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AppointmentList())
+        body: ListView(children: <Widget>[
+          //SizedBox(height: 10,),
+          createHeader(),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: <Widget>[
+                createDrawerBodyItem(
+                    icon: Icons.add_business_sharp,
+                    text: 'My Shop',
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UpdateShoapInfo()));
+                    },
+                    // onTap: () => //  Navigator.pushReplacementNamed(context, pageRoutes.home),
+                    color: Color(0xffb01c92)),
+                Divider(),
+                createDrawerBodyItem(
+                    icon: Icons.message,
+                    text: 'Messages',
+                    // onTap: () => //  Navigator.pushReplacementNamed(context, pageRoutes.home),
+                    color: Color(0xff741cb0)),
+                Divider(),
+                createDrawerBodyItem(
+                    icon: Icons.favorite,
+                    text: 'Friends',
+                    //onTap: () => // Navigator.pushReplacementNamed(context, pageRoutes.profile),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FriendsList()));
+                    },
+                    color: Color(0xff14cae2)),
+                Divider(),
+                createDrawerBodyItem(
+                    icon: Icons.contact_support,
+                    text: 'About Choovoo App',
+                    // onTap: () => // Navigator.pushReplacementNamed(context, pageRoutes.event),
+                    color: Color(0xffe14490)),
+                Divider(),
+                createDrawerBodyItem(
+                    icon: Icons.people,
+                    text: 'Friends Request',
+                    // onTap: () => //  Navigator.pushReplacementNamed(context, pageRoutes.home),
+                    color: Color(0xff2b44e7),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FriendRequest()));
+                    }),
+                Divider(),
+                createDrawerBodyItem(
+                    icon: Icons.account_balance_wallet_rounded,
+                    text: 'My Payments',
+                    onTap: () {
+                      /* Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AppointmentList())
 
-                            );*/
-                        },
-                        color: Color(0xff144619)),
-                    Divider(),
-                    createDrawerBodyItem(
-                        icon: Icons.settings,
-                        text: 'Settings',
-                        // onTap: () => Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SettingPage()));
-                        },
-                        color: Color(0xff556ef7)),
-                    Divider(),
-                    createDrawerBodyItem(
-                        icon: Icons.logout_outlined,
-                        text: 'Logout',
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) => LogoutOverlay(),
-                          );
-                        },
-                        // onTap: () => Navigator.pushReplacementNamed(context, pageRoutes.contact),
-                        color: Color(0xffc0c4d1)),
-                  ],
-                ),
-              ),
+                        );*/
+                    },
+                    color: Color(0xff144619)),
+                Divider(),
+                createDrawerBodyItem(
+                    icon: Icons.settings,
+                    text: 'Settings',
+                    // onTap: () => Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingPage()));
+                    },
+                    color: Color(0xff556ef7)),
+                Divider(),
+                createDrawerBodyItem(
+                    icon: Icons.logout_outlined,
+                    text: 'Logout',
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => LogoutOverlay(),
+                      );
+                    },
+                    // onTap: () => Navigator.pushReplacementNamed(context, pageRoutes.contact),
+                    color: Color(0xffc0c4d1)),
+              ],
             ),
-          ]),
-        ));
+          ),
+        ]));
   }
 
   Widget createDrawerBodyItem(
@@ -193,6 +186,7 @@ class BarberProfileState extends State<BarberProfile> {
 
   Widget createHeader() {
     return Container(
+      height: 140,
       decoration: BoxDecoration(
         color: Color(0xfff4f5f8),
       ),
@@ -203,13 +197,17 @@ class BarberProfileState extends State<BarberProfile> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 15),
-                child: Align(
-                  alignment: Alignment.center,
+                margin: const EdgeInsets.only(left: 15),
+                child: DottedBorder(
+                  color: Color.fromRGBO(73, 30, 170, 1),
+                  strokeWidth: 3,
+                  borderType: BorderType.Circle,
+                  padding: EdgeInsets.all(6),
                   child: CachedNetworkImage(
-                    // imageUrl: profileimg, will change after url working
-                    imageUrl:
-                        'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
+                    imageUrl: profileimg,
+                    // will change after url working
+                    // imageUrl:
+                    //     'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
                     placeholder: (context, url) => new Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -219,8 +217,8 @@ class BarberProfileState extends State<BarberProfile> {
                       width: 100,
                     ),
                     imageBuilder: (context, imageProvider) => Container(
-                      width: 110.0,
-                      height: 110.0,
+                      width: 87.0,
+                      height: 87.0,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
@@ -243,32 +241,49 @@ class BarberProfileState extends State<BarberProfile> {
 
               Container(
                 margin: EdgeInsets.only(left: 15),
-                child: Expanded(
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontFamily: 'RobotoBold'),
-                  ),
+                child: Text(
+                  name,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'RobotoBold'),
                 ),
               ),
             ],
           ),
+          // Container(
+          //     margin: EdgeInsets.only(right: 12, bottom: 15),
+          //     padding: EdgeInsets.all(8),
+          //     alignment: Alignment.topRight,
+          //     decoration: BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         boxShadow: [BoxShadow(color: Colors.white, spreadRadius: 2)],
+          //         color: Color.fromRGBO(67, 110, 195, 1)),
+          // child:
           Container(
-              margin: EdgeInsets.only(right: 12),
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UpdateProfileScreen()));
-                  },
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 14,
-                  )))
+            margin: EdgeInsets.only(right: 12, bottom: 40),
+            alignment: Alignment.topRight,
+            height: 30,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [BoxShadow(color: Colors.white, spreadRadius: 5)]),
+            child: FloatingActionButton(
+              backgroundColor: Color.fromRGBO(67, 110, 195, 1),
+              child: Icon(
+                Icons.edit,
+                color: Colors.white,
+                size: 15,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UpdateProfileScreen()));
+              },
+            ),
+          )
+          // ))
         ]),
       ),
     );

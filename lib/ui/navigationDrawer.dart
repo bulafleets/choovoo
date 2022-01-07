@@ -29,6 +29,7 @@ class navigationDrawer extends StatelessWidget {
           createDrawerBodyItem(
               text: 'Friends',
               onTap: () {
+                Navigator.of(context).pop();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => FriendsList()));
               }),
@@ -46,6 +47,7 @@ class navigationDrawer extends StatelessWidget {
               text: 'Settings',
               // onTap: () => Navigator.pushReplacementNamed(context, pageRoutes.contact),
               onTap: () {
+                Navigator.of(context).pop();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SettingPage()));
               }),

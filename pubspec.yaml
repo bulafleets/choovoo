@@ -54,6 +54,8 @@ dependencies:
   carousel_slider: ^4.0.0
   getwidget: ^2.0.4
   flutter_switch: ^0.3.2
+  dotted_border: ^2.0.0+2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
