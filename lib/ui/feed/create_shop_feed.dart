@@ -356,6 +356,7 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
               EasyLoading.showToast("Please upload image");
             }
          else{
+              EasyLoading.show(status: 'Please Wait ...');
               CreateShoap() ;
             }
 
@@ -418,6 +419,7 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
 
     var res = await request.send();
     var response=await http.Response.fromStream(res);
+    EasyLoading.dismiss();
     String data = response.body;
     print(data);
     String status = jsonDecode(data)['status'].toString();
@@ -426,8 +428,6 @@ class _CreateShopFeedState extends State<CreateShopFeed> {
     if (status == '200') {
       String message = jsonDecode(data)['message'].toString();
       EasyLoading.showToast(message);
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      _prefs.setString('shoap_added', "done");
       Navigator.of(context).pushNamedAndRemoveUntil(BARBER_DASHBOARD,(Route<dynamic> route) => false);
 
     }

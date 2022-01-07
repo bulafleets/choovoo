@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:choovoo/constants/common_params.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

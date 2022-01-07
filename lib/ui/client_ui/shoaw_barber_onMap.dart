@@ -9,6 +9,7 @@ import 'package:choovoo/model/get_barberlist.dart';
 import 'package:choovoo/services/geolocator_service.dart';
 import 'package:choovoo/services/get_shop_service.dart';
 import 'package:choovoo/services/marker_service.dart';
+import 'package:choovoo/ui/client_ui/rate_barber.dart';
 import 'package:choovoo/ui/client_ui/show_barber_onlist.dart';
 import 'package:choovoo/utils/LocationProvider.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../main.dart';
 import 'barber_profile_user.dart';
@@ -54,7 +56,24 @@ class _ShowBraberMapState extends State<ShowBraberMap> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
+    checkrating ();
     _getUserLocation();
+  }
+
+  Future<void> checkrating() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    bool CheckValue = _prefs.containsKey('notistatus');
+    if (CheckValue) {
+      String  status = _prefs.getString('notistatus');
+      if(status=="100") {
+        String shopid = _prefs.getString('shopid');
+        String shopname = _prefs.getString('shopname');
+        showDialog(
+          context: context,
+          builder: (_) => RateBarber(shopid: shopid, shopname: shopname,),
+        );
+      }
+    }
   }
   void _getUserLocation() async {
     Position position = await locationService.provideCurrentLocation();

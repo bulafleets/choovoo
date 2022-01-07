@@ -1,4 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+
 import 'package:choovoo/ui/LoginScreen.dart';
 import 'package:choovoo/ui/Signup_screen.dart';
 import 'package:choovoo/ui/barber_ui/barber_shoap.dart';
@@ -22,7 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'constants/common_params.dart';
 GetIt getIt = GetIt.instance;
 Future<void> main() async {
-  AwesomeNotifications().initialize(
+ /* AwesomeNotifications().initialize(
       null,
       [
         NotificationChannel(
@@ -33,7 +33,8 @@ Future<void> main() async {
             ledColor: Colors.white
         )
       ]
-  );
+  );*/
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); // initialize firebase before actual app get start.
  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   getIt.registerSingleton(LocationProvider());

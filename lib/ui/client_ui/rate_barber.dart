@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RateBarber extends StatefulWidget {
   final String shopid;
@@ -86,7 +87,7 @@ class RateBarberState extends State<RateBarber>
                     ),
                      SizedBox(height: 20,),
                      Text(
-                      "Barbershoap",
+                      widget.shopname,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Color(0xff718293), fontSize: 14.0,fontFamily: 'RobotoBold'),
                     ),
@@ -175,6 +176,11 @@ class RateBarberState extends State<RateBarber>
                         onPressed: () {
                           if(strating.isEmpty || strating==""){
                             EasyLoading.showToast("Please rate Barber");
+
+                          }
+                          else{
+                            EasyLoading.show(status: 'Please Wait ...');
+                            RateUser();
                           }
                         },
                         child: Text(
@@ -194,7 +200,7 @@ class RateBarberState extends State<RateBarber>
       body:{
         'shop_id': widget.shopid,
         'user_id': user_id,
-        'review': "fcmtoken",
+        'review': nameController.text,
         'rating': strating,
       },
     );
@@ -202,9 +208,15 @@ class RateBarberState extends State<RateBarber>
     String data = response.body;
     String status = jsonDecode(data)['status'].toString();
     print(data);
-
+    Navigator.of(context, rootNavigator: true)
+        .pop('dialog');
     if (status == '200') {
       String message = jsonDecode(data)['message'];
+      SharedPreferences _prefs =
+      await SharedPreferences.getInstance();
+      _prefs.remove('shopid');
+      _prefs.remove('shopname');
+      _prefs.remove('notistatus');
       EasyLoading.showToast(message);
     }
     else if (status == '400') {

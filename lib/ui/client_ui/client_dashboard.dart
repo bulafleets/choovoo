@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:choovoo/constants/colors.dart';
@@ -18,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'appointment_list.dart';
 
@@ -39,41 +41,18 @@ class _ClientHomeState extends State<ClientHome> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   @override
   void initState() {
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOs = IOSInitializationSettings();
-    var initSetttings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOs);
-    flutterLocalNotificationsPlugin.initialize(initSetttings, onSelectNotification: onSelectNotification);
 
-    if (Platform.isIOS) {
-      _firebaseMessaging.requestNotificationPermissions(
-          const IosNotificationSettings(
-              sound: true, badge: true, alert: true, provisional: true));
-      _firebaseMessaging.onIosSettingsRegistered
-          .listen((IosNotificationSettings settings) {
-        print("Settings registered: $settings");
-      });
-    }
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        showNotification("nikita");
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
 
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
   @override
   Widget build(BuildContext context) {
    /* final pushNotificationService = PushNotificationService(_firebaseMessaging);
     pushNotificationService.initialise();*/
-
     final locatorService = GeoLocatorService();
     // TODO: implement build
     _height = MediaQuery.of(context).size.height;
@@ -191,18 +170,6 @@ class _ClientHomeState extends State<ClientHome> {
       );
     }
   }
-  showNotification(String name) async {
-    var android = new AndroidNotificationDetails(
-        'id', 'channel ', 'description',
-        priority: Priority.high, importance: Importance.max);
-    var iOS = new IOSNotificationDetails();
-    var platform = new NotificationDetails(android: android, iOS: iOS);
-    // FlutterLocalNotificationsPlugin.
-    await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platform,
-        payload: 'item x');
-  }
-  Future onSelectNotification(String payload) async {
-    print("payload$payload");
-  }
+
+
 }

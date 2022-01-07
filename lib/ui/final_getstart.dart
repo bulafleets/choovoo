@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:choovoo/constants/colors.dart';
 import 'package:choovoo/constants/common_params.dart';
 import 'package:choovoo/constants/widget/responsive_ui.dart';
@@ -5,11 +7,14 @@ import 'package:choovoo/ui/LoginScreen.dart';
 import 'package:choovoo/ui/add_shoap.dart';
 import 'package:choovoo/ui/barber_ui/barber_shoap.dart';
 import 'package:choovoo/ui/client_ui/client_dashboard.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Signup_screen.dart';
+import 'client_ui/rate_barber.dart';
 
 class FinalGetStart extends StatefulWidget {
   @override
@@ -41,6 +46,60 @@ class FinalGetStartState extends State<FinalGetStart>{
       borderRadius: BorderRadius.all(Radius.circular(26)),
     ),
   );
+   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  @override
+  void initState() {
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOs = IOSInitializationSettings();
+    var initSetttings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOs);
+    flutterLocalNotificationsPlugin.initialize(initSetttings, onSelectNotification: onSelectNotification);
+    if (Platform.isIOS) {
+      _firebaseMessaging.requestNotificationPermissions(
+          const IosNotificationSettings(
+              sound: true, badge: true, alert: true, provisional: true));
+      _firebaseMessaging.onIosSettingsRegistered
+          .listen((IosNotificationSettings settings) {
+        print("Settings registered: $settings");
+      });
+    }
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        final title = message['notification']['title'];
+        print("hhh$title");
+        var data = message['data'] ?? message;
+        print("data$data");
+        String status = data['status'].toString();
+        if(status=="100"){
+          print("hhh$status");
+          final shopid = data['shopid']?? '';
+          print("hhh$shopid");
+          final shopname = data['shopname']?? '';
+          SharedPreferences _prefs = await SharedPreferences.getInstance();
+          _prefs.setString('notistatus', "100");
+          _prefs.setString('shopid',shopid );
+          _prefs.setString('shopname',shopname );
+          showNotification(title,status,shopid,shopname);
+          /* showDialog(
+                      context: context,
+                      builder: (_) => RateBarber(shopid: shopid,shopname: shopname,),
+                    );*/
+        }
+
+      },
+     // onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
@@ -186,7 +245,33 @@ class FinalGetStartState extends State<FinalGetStart>{
       ],
     );
   }
+   showNotification(String name,String status,String shopid,String shopname) async {
+     var android = new AndroidNotificationDetails(
+         'id', 'channel ', 'description',
+         priority: Priority.high, importance: Importance.max);
+     var iOS = new IOSNotificationDetails();
+     var platform = new NotificationDetails(android: android, iOS: iOS);
+     // FlutterLocalNotificationsPlugin.
+     await flutterLocalNotificationsPlugin.show(
+         0, name, '', platform,
+         payload: 'item x');
+   }
+   Future onSelectNotification(String payload) async {
+     print("payload$payload");
+   }
 
+   Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+    print("background$message");
+     if (message.containsKey('data')) {
+       // Handle data message
+       final dynamic data = message['data'];
+     }
 
+     if (message.containsKey('notification')) {
+       // Handle notification message
+       final dynamic notification = message['notification'];
+     }
 
+     // Or do other work.
+   }
 }
