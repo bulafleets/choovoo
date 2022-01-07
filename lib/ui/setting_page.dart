@@ -1,4 +1,5 @@
 import 'package:choovoo/constants/colors.dart';
+import 'package:choovoo/ui/change_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
@@ -96,7 +97,10 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 ListTile(
                   horizontalTitleGap: 1,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ChangePassword()));
+                  },
                   leading:
                       Icon(Icons.lock, color: Color.fromRGBO(176, 28, 151, 1)),
                   title: Text('Change Password'),

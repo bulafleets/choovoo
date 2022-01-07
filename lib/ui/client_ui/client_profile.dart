@@ -5,6 +5,7 @@ import 'package:choovoo/ui/client_ui/update_profile.dart';
 import 'package:choovoo/ui/feed/Frirnds_list.dart';
 import 'package:choovoo/ui/feed/friend_request.dart';
 import 'package:choovoo/ui/setting_page.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -178,6 +179,7 @@ class ClientProfileState extends State<ClientProfile> {
 
   Widget createHeader() {
     return Container(
+      height: 140,
       decoration: BoxDecoration(
         color: Color(0xfff4f5f8),
       ),
@@ -188,11 +190,16 @@ class ClientProfileState extends State<ClientProfile> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 15),
-                child: Align(
-                  alignment: Alignment.center,
+                margin: const EdgeInsets.only(left: 15),
+                child: DottedBorder(
+                  color: Color.fromRGBO(73, 30, 170, 1),
+                  strokeWidth: 3,
+                  borderType: BorderType.Circle,
+                  padding: EdgeInsets.all(6),
                   child: CachedNetworkImage(
-                    imageUrl: profileimg,
+                    imageUrl: profileimg == ''
+                        ? 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202103/photo-1511367461989-f85a21fda1_0_1200x768.jpeg?YVCV8xj2CmtZldc_tJAkykymqxE3fxNf&size=770:433'
+                        : profileimg,
                     placeholder: (context, url) => new Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -202,8 +209,8 @@ class ClientProfileState extends State<ClientProfile> {
                       width: 100,
                     ),
                     imageBuilder: (context, imageProvider) => Container(
-                      width: 110.0,
-                      height: 110.0,
+                      width: 87.0,
+                      height: 87.0,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
@@ -226,32 +233,41 @@ class ClientProfileState extends State<ClientProfile> {
 
               Container(
                 margin: EdgeInsets.only(left: 15),
-                child: Expanded(
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontFamily: 'RobotoBold'),
-                  ),
+                child: Text(
+                  name,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'RobotoBold'),
                 ),
               ),
             ],
           ),
+
           Container(
-              margin: EdgeInsets.only(right: 12),
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UpdateProfileScreen()));
-                  },
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 14,
-                  )))
+            margin: EdgeInsets.only(right: 12, bottom: 40),
+            alignment: Alignment.topRight,
+            height: 30,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [BoxShadow(color: Colors.white, spreadRadius: 5)]),
+            child: FloatingActionButton(
+              backgroundColor: Color.fromRGBO(67, 110, 195, 1),
+              child: Icon(
+                Icons.edit,
+                color: Colors.white,
+                size: 15,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UpdateProfileScreen()));
+              },
+            ),
+          )
+          // ))
         ]),
       ),
     );

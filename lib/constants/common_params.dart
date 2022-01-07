@@ -45,3 +45,6 @@ final String URL_CreateShopReview = BASE + "create/shop/review";
 final String URL_FeedCreate = BASE + "feed/create";
 final String URL_Accept = BASE + "accept-friend-request";
 final String URL_Delete = BASE + "delete-friend-request";
+final String URL_ChangePassword = BASE + "user/resetPassword";
+final String URL_FriendsList = BASE + "my-all-friends";
+final String URL_FriendRequest = BASE + "my-all-friends-requests";

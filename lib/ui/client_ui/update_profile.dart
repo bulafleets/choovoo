@@ -1,6 +1,3 @@
-
-
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -18,7 +15,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
-
   @override
   _UpdateProfileScreenState createState() => _UpdateProfileScreenState();
 }
@@ -31,117 +27,126 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   double _pixelRatio;
   bool _large;
   bool _medium;
-  bool isalldone=false;
+  bool isalldone = false;
   String base64Image;
   TextEditingController namecontroll = TextEditingController();
 
   GlobalKey<FormState> _formkey = GlobalKey();
-  PickedFile imageFile=null;
+  PickedFile imageFile = null;
   @override
   void initState() {
     // TODO: implement initState
-namecontroll.text=name;
+    namecontroll.text = name;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     _pixelRatio = MediaQuery.of(context).devicePixelRatio;
-    _large =  ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
-    _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
+    _large = ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
+    _medium = ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
 
-    return Stack(
-        children: [
-          Image.asset(
-            'assets/background.png',
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
+    return Stack(children: [
+      Image.asset(
+        'assets/background.png',
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
+      ),
+      Scaffold(
+        floatingActionButton: keyboardIsOpened ? null : nextbutton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: AppColors.primaryColor,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-          Scaffold(
-            floatingActionButton: keyboardIsOpened ?
-            null :nextbutton(),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              backgroundColor: AppColors.primaryColor,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: Text("Update Profile",style: TextStyle(color: Colors.white,fontFamily: 'RobotoBold'),),
-              centerTitle: true,
-            ),
-            body: Container(
-              height: _height,
-              width: _width,
-              margin: EdgeInsets.only(bottom: 5),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: _height/25,),
-                    Container(
-
-                      height: _height / 5.5,
-                      alignment: Alignment.center,
-                      child:  GestureDetector(
-                        onTap: () {
-                          _showPicker(context);
-                          // print("Routing to Sign up screen");
-                        },
-                        child:  imageFile!= null
-                            ? ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.file(
-                            File(imageFile.path),
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        )
-                            :CachedNetworkImage(
-                          imageUrl: profileimg,
-                          placeholder: (context, url) => new Center(child: CircularProgressIndicator(),),
-                          errorWidget: (context, url, error) => new Image.asset(
-                            'images/profile.png',
-                            height: 100,
-                            width: 100,
-                          ),
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 110.0,
-                            height: 110.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.8),
-                                    BlendMode.dstATop
-                                ),),
+          title: Text(
+            "Update Profile",
+            style: TextStyle(color: Colors.white, fontFamily: 'RobotoBold'),
+          ),
+          centerTitle: true,
+        ),
+        body: Container(
+          height: _height,
+          width: _width,
+          margin: EdgeInsets.only(bottom: 5),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: _height / 25,
+                ),
+                Container(
+                  height: _height / 5.5,
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                    onTap: () {
+                      _showPicker(context);
+                      // print("Routing to Sign up screen");
+                    },
+                    child: imageFile != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.file(
+                              File(imageFile.path),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: profileimg,
+                            placeholder: (context, url) => new Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                new Image.asset(
+                              'images/profile.png',
+                              height: 100,
+                              width: 100,
+                            ),
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 110.0,
+                              height: 110.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                      Colors.black.withOpacity(0.8),
+                                      BlendMode.dstATop),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-
-                    ),
-                    SizedBox(height: _height/40,),
-                    signInTextRow(),
-                    // SizedBox(height: _height/25,),
-                    form(),
-                    // acceptTermsTextRow(),
-                    SizedBox(height: _height/25,),
-                    //nextbutton()
-
-                    //signInTextRow(),
-                  ],
+                  ),
                 ),
-              ),
+                SizedBox(
+                  height: _height / 40,
+                ),
+                signInTextRow(),
+                // SizedBox(height: _height/25,),
+                form(),
+                // acceptTermsTextRow(),
+                SizedBox(
+                  height: _height / 25,
+                ),
+                //nextbutton()
+
+                //signInTextRow(),
+              ],
             ),
           ),
-        ]
-    );
+        ),
+      ),
+    ]);
   }
 
   Widget signInTextRow() {
@@ -168,16 +173,13 @@ namecontroll.text=name;
   Widget form() {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.only(
-          left:40,
-          right: 40,
-          top: _height / 20.0),
+      margin: EdgeInsets.only(left: 40, right: 40, top: _height / 20.0),
       child: Form(
         key: _formkey,
         child: Column(
           children: <Widget>[
             // firstNameTextFormField(),
-            SizedBox(height: _height/ 60.0),
+            SizedBox(height: _height / 60.0),
             firstNameTextFormField(),
           ],
         ),
@@ -185,22 +187,18 @@ namecontroll.text=name;
     );
   }
 
-
-
   Widget firstNameTextFormField() {
     return TextFormField(
-      validator:RequiredValidator(errorText: "Please Enter Your Name."),
+      validator: RequiredValidator(errorText: "Please Enter Your Name."),
       controller: namecontroll,
       keyboardType: TextInputType.text,
       cursorColor: Colors.grey,
-      style:  TextStyle(color:Colors.white) ,
-      onChanged: (val){
-
+      style: TextStyle(color: Colors.white),
+      onChanged: (val) {
         setState(() {
-          if(val.length==0){
+          if (val.length == 0) {
             isalldone = false;
-          }
-          else {
+          } else {
             isalldone = true;
           }
         });
@@ -218,15 +216,13 @@ namecontroll.text=name;
         ),
         prefixIcon: Icon(Icons.person, color: Colors.grey, size: 20),
         labelText: "Name",
-        labelStyle: TextStyle(color:Color(0xFFb6b3c6) ),
+        labelStyle: TextStyle(color: Color(0xFFb6b3c6)),
         border: OutlineInputBorder(),
       ),
     );
   }
 
-
-
-  Widget nextbutton(){
+  Widget nextbutton() {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 60,
@@ -235,7 +231,7 @@ namecontroll.text=name;
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           onPrimary: Colors.white,
-          primary:isalldone?Color(0xFF0ebb8e):Color(0xFF51506a),
+          primary: isalldone ? Color(0xFF0ebb8e) : Color(0xFF51506a),
           minimumSize: Size(88, 36),
           padding: EdgeInsets.symmetric(horizontal: 16),
           shape: const RoundedRectangleBorder(
@@ -243,7 +239,6 @@ namecontroll.text=name;
           ),
         ),
         onPressed: () {
-
           if (_formkey.currentState.validate()) {
             //CircularProgressIndicator();
             EasyLoading.show(status: 'Please Wait ...');
@@ -252,7 +247,9 @@ namecontroll.text=name;
           }
         },
         child: Text(
-          "Next",style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: 'RobotoBold'),
+          "Next",
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontFamily: 'RobotoBold'),
         ),
       ),
     );
@@ -285,12 +282,12 @@ namecontroll.text=name;
               ),
             ),
           );
-        }
-    );
+        });
   }
+
   _imgFromCamera() async {
     final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera ,
+      source: ImageSource.camera,
     );
     setState(() {
       imageFile = pickedFile;
@@ -298,29 +295,26 @@ namecontroll.text=name;
   }
 
   _imgFromGallery() async {
-    final pickedFile = await  ImagePicker().getImage(
-        source: ImageSource.gallery, imageQuality: 50
-    ) ;
+    final pickedFile = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       imageFile = pickedFile;
     });
   }
+
   Future<void> RegisterUser() async {
-    if(imageFile!=null){
+    if (imageFile != null) {
       print("notnull");
-      var request = http.MultipartRequest('POST', Uri.parse(URL_UpdateUserProfile));
+      var request =
+          http.MultipartRequest('POST', Uri.parse(URL_UpdateUserProfile));
       request.headers.addAll({"Authorization": "Bearer $authorization"});
-      request.files.add(
-          await http.MultipartFile.fromPath(
-              'avatar',
-              imageFile.path
-          )
-      );
+      request.files
+          .add(await http.MultipartFile.fromPath('avatar', imageFile.path));
       request.fields['name'] = namecontroll.text;
       request.fields['_id'] = user_id;
       var res = await request.send();
-      var response=await http.Response.fromStream(res);
+      var response = await http.Response.fromStream(res);
       String data = response.body;
       print(data);
       String status = jsonDecode(data)['status'].toString();
@@ -329,24 +323,23 @@ namecontroll.text=name;
       EasyLoading.dismiss();
       if (status == '200') {
         name = namecontroll.text;
-        profileimg=userphoto;
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ClientProfile()));
+        profileimg = userphoto;
+        Navigator.of(context).pop();
         // Navigator.of(context).pushNamed(OTP_SCREEN);
-      }
-      else if (status == '400') {
+      } else if (status == '400') {
         String message = jsonDecode(data)['message'].toString();
         EasyLoading.showToast(message);
-      }
-      else {
+      } else {
         EasyLoading.showToast("Something Happen Wrong");
       }
-    }
-    else {
+    } else {
       print("null");
-      final response = await http.post(Uri.parse(URL_UpdateUserProfile),headers: {HttpHeaders.authorizationHeader: "Bearer $authorization"},
+      final response = await http.post(
+        Uri.parse(URL_UpdateUserProfile),
+        headers: {HttpHeaders.authorizationHeader: "Bearer $authorization"},
         body: {
           'name': namecontroll.text,
-          '_id':user_id,
+          '_id': user_id,
           'avatar': "",
         },
       );
@@ -357,14 +350,15 @@ namecontroll.text=name;
       EasyLoading.dismiss();
       if (status == '200') {
         name = namecontroll.text;
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ClientProfile()));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => ClientProfile()));
         // Navigator.of(context).pushNamed(OTP_SCREEN);
-      }
-      else if (status == '400') {
+      } else if (status == '400') {
         String message = jsonDecode(data)['message'].toString();
         EasyLoading.showToast(message);
-      }
-      else {
+      } else {
         EasyLoading.showToast("Something Happen Wrong");
       }
     }
